@@ -83,6 +83,8 @@ To draw a `car` in a given sized box, at a given point, with a given spin, pipe 
 ((->> car (in 50 50) (spin (* angle 2)) (at x y)))
 ```
 
+**Note**: the ordering is important, as scaling, translation and rotation do not generally commute. The order given above (`in` -> `spin` -> `at`) will yield expected results.
+
 ## License
 
 Copyright © 2020 Fergal Byrne & Louise Klodt
