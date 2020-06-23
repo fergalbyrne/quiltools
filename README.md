@@ -8,11 +8,11 @@ Functional geometry wrapper for quil
 
 ### Leiningen/Boot
 
-    [org.clojars.fergalbyrne/quiltools "0.1.1"]
+    [org.clojars.fergalbyrne/quiltools "0.1.2"]
 
 ### Clojure CLI/deps.edn
 
-    org.clojars.fergalbyrne/quiltools {:mvn/version "0.1.1"}
+    org.clojars.fergalbyrne/quiltools {:mvn/version "0.1.2"}
 
 ### Example:
 
@@ -44,23 +44,27 @@ Functional geometry wrapper for quil
   (q/frame-rate 50)
   (q/color-mode :hsb)
   {:color 0
-   :angle 0})
+   :angle 0
+   :direction 1})
 
 (defn update-state [state]
-  (let [{:keys [color angle]} state]
+  (let [{:keys [color angle direction]} state]
     {:color (mod (+ color 0.7) 255)
-     :angle (mod (+ angle 0.02) q/TWO-PI)}))
+     :angle (mod (+ angle 0.02) q/TWO-PI)
+     :direction (if (divides? (q/frame-count) 120)
+                    (- direction)
+                    direction)}))
 
 (defn draw-state [state]
   (q/background 240)
   (q/fill (:color state) 255 255)
-  (let [angle (:angle state)
+  (let [{angle :angle direction :direction} state)
         x (* 150 (q/cos angle))
         y (* 150 (q/sin angle))]
     (q/with-translation [(/ (q/width) 2)
                          (/ (q/height) 2)]
       ((->> envelope (in 100 100) (spin (- q/QUARTER-PI angle))))
-      ((->> car (in 50 50) (spin (* angle 2)) (at x y))))))
+      ((->> car (in 50 50) (spin (* direction angle 2)) (at x y))))))
 ;
 (q/defsketch quil-playground
   :title "You spin my circle right round"
