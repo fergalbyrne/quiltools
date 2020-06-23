@@ -23,9 +23,11 @@ Functional geometry wrapper for quil
             [quil.middleware :as m]))
 
 (defn wheel []
+  "draws an inverted semicircle in the top half of its box"
   (q/arc 0.5 0 1 1 0 q/PI))
 
 (defn car []
+  "draws a car"
   (let [h 0.3
         y (- 1 h)
         x 0.05]
@@ -34,6 +36,7 @@ Functional geometry wrapper for quil
     ((->> wheel (in h h) (at (- 1 h x) y)))))
 
 (defn envelope []
+  "draws an envelope"
   (q/rect 0 0 1 1)
   (q/arc 0.5 0 1 1 0 q/PI))
 
@@ -68,6 +71,16 @@ Functional geometry wrapper for quil
   :features [:keep-on-top]
   :middleware [m/fun-mode])
 
+```
+
+The functions `wheel`, `car` and `envelope` draw their graphics in a box with origin [0 0] and size [1 1].
+`quiltools` provides the functions `at`, `in` and `spin` which each take a drawing-function as last argument,
+returning a drawing function which draws *at* a location, *in* a box of given size, and with a given *spin* angle.
+
+To draw a `car` in a given sized box, at a given point, with a given spin, pipe the `car` function and call the result:
+
+```clojure
+(->> envelope (in 100 100) (spin (- q/QUARTER-PI angle)))
 ```
 
 ## License
