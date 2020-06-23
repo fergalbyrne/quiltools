@@ -2,13 +2,77 @@
 
 Functional geometry wrapper for quil
 
+[![Clojars Project](https://img.shields.io/clojars/v/org.clojars.fergalbyrne/quiltools.svg)](https://clojars.org/org.clojars.fergalbyrne/quiltools)
+
 ## Usage
 
-FIXME
+### Leiningen/Boot
+
+    [org.clojars.fergalbyrne/quiltools "0.1.0"]
+
+### Clojure CLI/deps.edn
+
+    org.clojars.fergalbyrne/quiltools {:mvn/version "0.1.0"}
+
+### Example:
+
+```clojure
+(ns quilplayground
+  (:require [quiltools.core :refer :all]
+            [quil.core :as q]
+            [quil.middleware :as m]))
+
+(defn wheel []
+  (q/arc 0.5 0 1 1 0 q/PI))
+
+(defn car []
+  (let [h 0.3
+        y (- 1 h)
+        x 0.05]
+    (q/rect 0 0.4 1 (- y 0.4))
+    ((->> wheel (in h h) (at x y)))
+    ((->> wheel (in h h) (at (- 1 h x) y)))))
+
+(defn envelope []
+  (q/rect 0 0 1 1)
+  (q/arc 0.5 0 1 1 0 q/PI))
+
+(defn setup []
+  (q/frame-rate 50)
+  (q/color-mode :hsb)
+  {:color 0
+   :angle 0})
+
+(defn update-state [state]
+  (let [{:keys [color angle]} state]
+    {:color (mod (+ color 0.7) 255)
+     :angle (mod (+ angle 0.02) q/TWO-PI)}))
+
+(defn draw-state [state]
+  (q/background 240)
+  (q/fill (:color state) 255 255)
+  (let [angle (:angle state)
+        x (* 150 (q/cos angle))
+        y (* 150 (q/sin angle))]
+    (q/with-translation [(/ (q/width) 2)
+                         (/ (q/height) 2)]
+      ((->> envelope (in 100 100) (spin (- q/QUARTER-PI angle))))
+      ((->> car (in 50 50) (spin (* angle 2)) (at x y))))))
+;
+(q/defsketch quil-playground
+  :title "You spin my circle right round"
+  :size [500 500]
+  :setup setup
+  :update update-state
+  :draw draw-state
+  :features [:keep-on-top]
+  :middleware [m/fun-mode])
+
+```
 
 ## License
 
-Copyright © 2020 FIXME
+Copyright © 2020 Fergal Byrne & Louise Klodt
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
