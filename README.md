@@ -51,7 +51,7 @@ Functional geometry wrapper for quil
   (let [{:keys [color angle direction]} state]
     {:color (mod (+ color 0.7) 255)
      :angle (mod (+ angle 0.02) q/TWO-PI)
-     :direction (if (divides? (q/frame-count) 120)
+     :direction (if (n-ticks? 120)
                     (- direction)
                     direction)}))
 

@@ -35,3 +35,8 @@
   "returns `true` if `d` divides `n`"
   [n d]
   (zero? (mod n d)))
+
+(defn n-ticks?
+  "returns true only every `n` ticks"
+  [n]
+  (divides? (q/frame-count) n))
