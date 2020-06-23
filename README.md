@@ -80,7 +80,7 @@ returning a drawing function which draws *at* a location, *in* a box of given si
 To draw a `car` in a given sized box, at a given point, with a given spin, pipe the `car` function and call the result:
 
 ```clojure
-(->> envelope (in 100 100) (spin (- q/QUARTER-PI angle)))
+((->> car (in 50 50) (spin (* angle 2)) (at x y)))
 ```
 
 ## License
