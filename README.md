@@ -8,11 +8,11 @@ Functional geometry wrapper for quil
 
 ### Leiningen/Boot
 
-    [org.clojars.fergalbyrne/quiltools "0.1.0"]
+    [org.clojars.fergalbyrne/quiltools "0.1.1"]
 
 ### Clojure CLI/deps.edn
 
-    org.clojars.fergalbyrne/quiltools {:mvn/version "0.1.0"}
+    org.clojars.fergalbyrne/quiltools {:mvn/version "0.1.1"}
 
 ### Example:
 
