@@ -50,22 +50,22 @@ Functional geometry wrapper for quil
 (defn update-state [state]
   (let [{:keys [color angle direction]} state]
     {:color (mod (+ color 0.7) 255)
-     :angle (mod (+ angle 0.02) q/TWO-PI)
-     :direction (if (n-ticks? 120)
+     :angle (mod (+ angle (* direction 0.02)) q/TWO-PI)
+     :direction (if (n-ticks? 400)
                     (- direction)
                     direction)}))
 
 (defn draw-state [state]
   (q/background 240)
   (q/fill (:color state) 255 255)
-  (let [{angle :angle direction :direction} state)
+  (let [{angle :angle direction :direction} state
         x (* 150 (q/cos angle))
         y (* 150 (q/sin angle))]
     (q/with-translation [(/ (q/width) 2)
                          (/ (q/height) 2)]
       ((->> envelope (in 100 100) (spin (- q/QUARTER-PI angle))))
-      ((->> car (in 50 50) (spin (* direction angle 2)) (at x y))))))
-;
+      ((->> car (in 50 50) (spin (* angle 2)) (at x y))))))
+
 (q/defsketch quil-playground
   :title "You spin my circle right round"
   :size [500 500]
