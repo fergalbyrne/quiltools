@@ -8,17 +8,17 @@ Functional geometry wrapper for quil
 
 ### Leiningen/Boot
 
-    [org.clojars.fergalbyrne/quiltools "0.1.2"]
+    [org.clojars.fergalbyrne/quiltools "0.2.1"]
 
 ### Clojure CLI/deps.edn
 
-    org.clojars.fergalbyrne/quiltools {:mvn/version "0.1.2"}
+    org.clojars.fergalbyrne/quiltools {:mvn/version "0.2.1"}
 
 ### Example:
 
 ```clojure
 (ns quilplayground
-  (:require [quiltools.core :refer :all]
+  (:require [quiltools.core :refer [at in spin]]
             [quil.core :as q]
             [quil.middleware :as m]))
 
