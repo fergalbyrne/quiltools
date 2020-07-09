@@ -2,10 +2,13 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]))
 
+; this._renderer.strokeWeight(w);
+; this.drawingContext.lineWidth
 (defn stroke-weight
   "gets the stroke weight of the current graphics context"
   []
-  (.strokeWeight (q/current-graphics)))
+ #?(:clj (.strokeWeight (q/current-graphics))
+    :cljs (..(q/current-graphics) -drawingContext -lineWidth)))
 
 (defn spin
   "returns a draw-fn which draws `p` at angle `theta`"
